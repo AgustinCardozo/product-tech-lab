@@ -1,0 +1,28 @@
+import { db } from "../database/firebase.js";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
+
+const productsDb = collection(db, "products");
+
+export const getAllProducts = async () => {
+  try {
+    const snapshot = await getDocs(productsDb);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getProductById = async (id) => {
+  try {
+    const productRef = doc(productsDb, id);
+    const snapshot = await getDoc(productRef);
+    return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
+  } catch (error) {
+    console.error(error);
+  }
+};
