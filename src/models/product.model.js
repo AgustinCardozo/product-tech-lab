@@ -4,6 +4,7 @@ import {
   getDocs,
   doc,
   getDoc,
+  addDoc,
 } from "firebase/firestore";
 
 const productsDb = collection(db, "products");
@@ -26,3 +27,12 @@ export const getProductById = async (id) => {
     console.error(error);
   }
 };
+
+export const createProduct = async (data) => {
+  try {
+    const docRef = await addDoc(productsDb, data);
+    return { id: docRef.id, ...data };
+  } catch (error) {
+    console.error(error);
+  }
+}
