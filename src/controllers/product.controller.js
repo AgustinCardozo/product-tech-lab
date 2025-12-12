@@ -5,7 +5,6 @@ export const getAllProducts = async (req, res) => {
   res.json(products);
 };
 
-
 export const getProductById = async (req, res) => {
   const { id } = req.params;
 
