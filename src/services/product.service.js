@@ -1,17 +1,17 @@
 import * as model from "../models/product.model.js";
 
-export const getAllProducts = () => {
-  return model.getAllProducts();
+export const getAll = () => {
+  return model.getAll();
 };
 
-export const getProductById = (id) => {
-  return model.getProductById(id);
+export const getById = (id) => {
+  return model.getById(id);
 };
 
-export const createProduct = (product) => {
-  return model.createProduct(product);
+export const create = (product) => {
+  return model.create(product);
 }
 
-export const deleteProduct = (id) => {
-  return model.deleteProduct(id);
+export const remove = (id) => {
+  return model.remove(id);
 }

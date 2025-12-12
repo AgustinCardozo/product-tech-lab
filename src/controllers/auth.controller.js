@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUser, findUserByEmail } from "../models/user.model.js";
+import * as userService from "../services/user.service.js";
 
 export const register = async (req, res) => {
     const { email, password } = req.body;
@@ -8,12 +8,12 @@ export const register = async (req, res) => {
         return res.status(422).json({ message: "Email y contraseña requeridos" });
     }
 
-    if (await findUserByEmail(email)) {
-        return res.status(409).json({ message: "El usuario ya existe" });
+    if (await userService.findByEmail(email)) {
+        return res.status(409).json({ message: `El correo ${email} ya se encuentra registrado` });
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = await createUser(email, passwordHash);
+    const user = await userService.create(email, passwordHash);
 
     if (!user) {
         return res.sendStatus(503);
@@ -28,9 +28,9 @@ export const login = async (req, res) => {
         return res.status(422).json({ message: "Email y contraseña requeridos" });
     }
     
-    const user = await findUserByEmail(email);
+    const user = await userService.findByEmail(email);
     if (!user) {
-        return res.status(401).json({ message: "Credenciales inválidas" });
+        return res.status(401).json({ message: "Usuario no encontrado" });
     }
 
     const valid = await bcrypt.compare(password, user.password);

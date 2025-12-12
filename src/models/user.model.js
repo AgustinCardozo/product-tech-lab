@@ -4,16 +4,16 @@ import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 
 const usersDb = collection(db, "users");
 
-export const createUser = async (email, passwordHash) => {
+export const create = async (email, username, passwordHash) => {
   try {
-    const docRef = await addDoc(usersDb, { email, password: passwordHash });
+    const docRef = await addDoc(usersDb, { email, username, password: passwordHash });
     return { id: docRef.id, email };
   } catch (error) {
     console.log(error);
   }
 };
 
-export const findUserByEmail = async (email) => {
+export const findByEmail = async (email) => {
   try {
     const q = query(usersDb, where("email", "==", email));
     const snapshot = await getDocs(q);
