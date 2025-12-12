@@ -11,3 +11,7 @@ export const getProductById = (id) => {
 export const createProduct = (product) => {
   return model.createProduct(product);
 }
+
+export const deleteProduct = (id) => {
+  return model.deleteProduct(id);
+}

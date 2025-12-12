@@ -23,3 +23,15 @@ export const createProduct = async (req, res) => {
   const newProduct = await service.createProduct(productData);
   res.status(201).json(newProduct);
 }
+
+export const deleteProduct = async (req, res) => {
+  const productId = req.params.id;
+
+  const wasDeleted = await service.deleteProduct(productId);
+
+  if (!wasDeleted) {
+    return res.status(404).json({ error: "Producto no encontrado" });
+  }
+
+  res.status(204).send();
+};

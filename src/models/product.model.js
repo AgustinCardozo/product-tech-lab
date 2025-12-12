@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   addDoc,
+  deleteDoc
 } from "firebase/firestore";
 
 const productsDb = collection(db, "products");
@@ -35,4 +36,20 @@ export const createProduct = async (data) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+export const deleteProduct = async (id) => {
+  try {
+    const productRef = doc(productsDb, id);
+    const snapshot = await getDoc(productRef);
+
+    if (!snapshot.exists()) {
+      return false;
+    }
+
+    await deleteDoc(productRef);
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
+};
