@@ -1,16 +1,9 @@
 import { db } from "../database/firebase.js";
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  addDoc,
-  deleteDoc
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 
 const productsDb = collection(db, "products");
 
-export const getAllProducts = async () => {
+export const getAll = async () => {
   try {
     const snapshot = await getDocs(productsDb);
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -19,7 +12,7 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getProductById = async (id) => {
+export const getById = async (id) => {
   try {
     const productRef = doc(productsDb, id);
     const snapshot = await getDoc(productRef);
@@ -29,7 +22,7 @@ export const getProductById = async (id) => {
   }
 };
 
-export const createProduct = async (data) => {
+export const create = async (data) => {
   try {
     const docRef = await addDoc(productsDb, data);
     return { id: docRef.id, ...data };
@@ -38,7 +31,7 @@ export const createProduct = async (data) => {
   }
 };
 
-export const deleteProduct = async (id) => {
+export const remove = async (id) => {
   try {
     const productRef = doc(productsDb, id);
     const snapshot = await getDoc(productRef);
