@@ -15,10 +15,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/auth", authRouter);
 app.use("/api/products", auth, productsRouter);
-app.use(notFoundMiddleware);
 
 app.get("/", (req, res) => {
   res.json({ message: "API Rest en Node.js" });
 });
+
+app.use(notFoundMiddleware);
 
 app.listen(port, () => console.log(`http://localhost:${port}`));
