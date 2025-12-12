@@ -4,6 +4,8 @@ import {
   getDocs,
   doc,
   getDoc,
+  addDoc,
+  deleteDoc
 } from "firebase/firestore";
 
 const productsDb = collection(db, "products");
@@ -22,6 +24,31 @@ export const getProductById = async (id) => {
     const productRef = doc(productsDb, id);
     const snapshot = await getDoc(productRef);
     return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createProduct = async (data) => {
+  try {
+    const docRef = await addDoc(productsDb, data);
+    return { id: docRef.id, ...data };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteProduct = async (id) => {
+  try {
+    const productRef = doc(productsDb, id);
+    const snapshot = await getDoc(productRef);
+
+    if (!snapshot.exists()) {
+      return false;
+    }
+
+    await deleteDoc(productRef);
+    return true;
   } catch (error) {
     console.error(error);
   }
